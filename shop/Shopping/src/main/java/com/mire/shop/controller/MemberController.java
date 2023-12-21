@@ -17,7 +17,6 @@ import com.mire.shop.model.MemberVO;
 
 @Controller
 @RequestMapping(value = "/member")
-//@SessionAttributes("memberVO")
 public class MemberController {
 		
 	private final MemberService memberService;
@@ -26,6 +25,25 @@ public class MemberController {
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
 	}
+	@PostMapping(value = "/login.do")
+	public String CheckMember(@ModelAttribute MemberVO memberVO,Model model, HttpSession session) {
+		MemberVO vo = memberService.getMember(memberVO);
+		
+		if(vo != null) {
+			model.addAttribute("memberVO", vo);
+			session.setAttribute("memberVO", vo);
+			System.out.println(model.getAttribute("memberVO"));
+			return "logon";
+		}
+		
+		return "redirect:/error.jsp";
+	}
+	@RequestMapping("/logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/item/getMain.do";
+		
+	}
 	
 	@GetMapping("/getinfo.do")
 	public String getMember(@RequestParam String id,Model model) {
@@ -33,40 +51,23 @@ public class MemberController {
 		model.addAttribute("memberVO", member);
 		return "info";
 	}
-//	@GetMapping(value = "/login.do")
-//	public String checkSession(HttpSession session) {
-//		MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
-//		if(memberVO != null) {
-//			return "logon";
-//		}
-//		return "redirect:/index.jsp";
-//	}
 	
-	@PostMapping(value = "/login.do")
-	public String CheckMember(@ModelAttribute MemberVO memberVO,Model model) {
-		MemberVO vo = memberService.getMember(memberVO);
-		
-		
-		if(vo != null) {
-			model.addAttribute("memberVO", vo);
-			System.out.println(model.getAttribute("memberVO"));
-			return "logon";
-		}
-		
-		
-		return "redirect:/error.jsp";
-	}
 	@PostMapping(value = "/update.do")
-	public String updateMember(@RequestParam int price,  @ModelAttribute MemberVO memberVO,Model model) {
+	public String updateMember(@RequestParam int price,  @ModelAttribute MemberVO memberVO,Model model, HttpSession session) {
 		memberService.updateMember(memberVO);
+		
 		model.addAttribute("memberVO",memberService.getMember(memberVO.getId()));
+		session.setAttribute("memberVO", memberVO);
 		
 		return "logon";
 	}
+	
 	@GetMapping(value = "/delete.do")
-	public String deleteMember(@ModelAttribute MemberVO memberVO) {
+	public String deleteMember(@ModelAttribute MemberVO memberVO, HttpSession session) {
 		System.out.println(memberVO);
 		memberService.deleteMember(memberVO);
+		session.invalidate();
+		
 		return "redirect:/index.jsp";
 	}
 	@PostMapping(value = "/insert.do")

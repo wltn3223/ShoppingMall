@@ -34,8 +34,13 @@ public class ItemController {
 	@GetMapping("/getList.do")
 	public String getItemList(Model model) {
 		model.addAttribute("itemList", itemService.getItemList());
-		System.out.println(itemService.getItemList().size());
 		return "itemList";
+	}
+	
+	@GetMapping("/getMain.do")
+	public String getList(Model model) {
+		model.addAttribute("itemList", itemService.getItemList());
+		return "logon";
 	}
 	
 	

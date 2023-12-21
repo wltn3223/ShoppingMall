@@ -12,9 +12,12 @@
 <%@include file="top.jsp" %>
 
 <div class="container mt-5">
-    <h2>상품 등록</h2>
+    <h2>상품 판매</h2>
 
     <form action="/item/insert.do" method="post" enctype="multipart/form-data">
+    	<div class="form-group">
+    	<input type: "text" name="memberId" value="${memberVO.id}" class="form-control" readonly="readonly"/>
+    	</div>
         <div class="form-group">
             <label for="itemName">상품 이름:</label>
             <input type="text" class="form-control" id="itemName" name="name" required>

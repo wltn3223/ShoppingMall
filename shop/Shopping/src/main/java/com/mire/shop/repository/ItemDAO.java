@@ -21,8 +21,8 @@ public class ItemDAO {
 		private ResultSet rs = null;
 		private final String ITEM_GET_ALL = "select * from ITEM";
 		private final String ITEM_GET = "select  * from ITEM where ITEM_NO = ?";
-		private final String ITEM_INSERT = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE, ITEM_TYPE, ITEM_DETAIL, ITEM_IMGNAME)"
-				+ "VALUES ((select nvl(max(ITEM_NO), 0)+1 from item),?,?,?,?,?)";
+		private final String ITEM_INSERT = "INSERT INTO ITEM (ITEM_NO, MEMBER_ID, ITEM_NAME, ITEM_PRICE, ITEM_TYPE, ITEM_DETAIL, ITEM_IMGNAME)"
+				+ "VALUES ((select nvl(max(ITEM_NO), 0)+1 from item),?,?,?,?,?,?)";
 		
 		private final String ITEM_UPDATE = "UPDATE MEMBER SET MEMBER_PASSWD = ?,MEMBER_NAME = ?, MEMBER_PHONE = ? WHERE MEMBER_ID = ? ";
 		private final String ITEM_DELETE = "DELETE FROM MEMBER where ITEM_NO  = ?";
@@ -41,6 +41,7 @@ public class ItemDAO {
 				if (rs.next()) {
 					item = new ItemVO();
 					item.setNo(Integer.parseInt(rs.getString("ITEM_NO ")));
+					item.setMemberId(rs.getString("Member_ID"));
 					item.setName(rs.getString("ITEM_NAME"));
 					item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));
 					item.setType(rs.getString("ITEM_TYPE"));
@@ -67,6 +68,7 @@ public class ItemDAO {
 				while(rs.next()) {
 					ItemVO item = new ItemVO();
 					item.setNo(Integer.parseInt(rs.getString("ITEM_NO")));
+					item.setMemberId(rs.getString("Member_ID"));
 					item.setName(rs.getString("ITEM_NAME"));
 					item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));
 					item.setType(rs.getString("ITEM_TYPE"));
@@ -95,6 +97,7 @@ public class ItemDAO {
 				if (rs.next()) {
 					item = new ItemVO();
 					item.setNo(Integer.parseInt(rs.getString("ITEM_NO ")));
+					item.setMemberId(rs.getString("Member_ID"));
 					item.setName(rs.getString("ITEM_NAME"));
 					item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));
 					item.setType(rs.getString("ITEM_TYPE"));
@@ -116,11 +119,12 @@ public class ItemDAO {
 			try {
 				conn = JDBCUtil.getConnection();
 				stmt = conn.prepareStatement(ITEM_INSERT);
-				stmt.setString(1, vo.getName());
-				stmt.setInt(2, vo.getPrice());
-				stmt.setString(3, vo.getType());
-				stmt.setString(4, vo.getDetail());
-				stmt.setString(5, vo.getImgName());
+				stmt.setString(1, vo.getMemberId());
+				stmt.setString(2, vo.getName());
+				stmt.setInt(3, vo.getPrice());
+				stmt.setString(4, vo.getType());
+				stmt.setString(5, vo.getDetail());
+				stmt.setString(6, vo.getImgName());
 				stmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();

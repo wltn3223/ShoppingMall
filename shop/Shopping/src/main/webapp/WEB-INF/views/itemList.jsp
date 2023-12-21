@@ -8,12 +8,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%@include file="top.jsp" %>
 <c:forEach items="${itemList}" var="itemVO">
     ${itemVO.name}
     ${itemVO.price}
     <img alt="" src="${pageContext.request.contextPath}/resources/img/${itemVO.imgName}" style="width: 50px">
 </c:forEach>
-
+ <%@include file="bottom.jsp" %>
 </body>
 </html>

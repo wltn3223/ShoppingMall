@@ -2,6 +2,7 @@ package com.mire.shop.Service.item;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,25 +28,24 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void insertItem(@ModelAttribute ItemVO vo, HttpServletRequest request) {
 	    MultipartFile uploadFile = vo.getFile();
-	    System.out.println(vo);
-	    System.out.println(uploadFile);
+	    System.out.println(vo.getMemberId());
+	    
+	    
 
 	    if (uploadFile != null) {
-	        vo.setImgName(uploadFile.getOriginalFilename());
+	    	 UUID randomName = UUID.randomUUID();
+	        vo.setImgName(randomName + "_" + uploadFile.getOriginalFilename());
 
-	        // 실제 파일이 저장될 경로 설정
 	        String relativePath = "/resources/img"; // Relative path within the webapp directory
 
 	        // Use the servlet context to get the absolute path to the webapp directory
 	        String absolutePath = request.getServletContext().getRealPath(relativePath);
 
-	        // 만약 해당 경로에 폴더가 없다면 생성
 	        File directory = new File(absolutePath);
 	        if (!directory.exists()) {
 	            directory.mkdirs();
 	        }
            
-	        // 파일을 저장할 경로와 파일명 설정
 	        String filePath = absolutePath + File.separator + vo.getImgName();
 	        System.out.println(filePath);
 

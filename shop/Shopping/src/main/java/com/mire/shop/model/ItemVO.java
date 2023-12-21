@@ -6,12 +6,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ItemVO {
 	private int no;
+	private String memberId;
 	private String name;
 	private int price;
 	private String type;
 	private String detail;
 	private String imgName;
 	private MultipartFile file;
+	
+	
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	
 	public MultipartFile getFile() {
 		return file;
 	}
