@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.mire.shop.Service.item.ItemService;
 import com.mire.shop.Service.user.MemberService;
 import com.mire.shop.model.MemberVO;
 
@@ -20,10 +21,12 @@ import com.mire.shop.model.MemberVO;
 public class MemberController {
 		
 	private final MemberService memberService;
+	private final ItemService itemService;
 	
 	@Autowired
-	public MemberController(MemberService memberService) {
+	public MemberController(MemberService memberService, ItemService itemService) {
 		this.memberService = memberService;
+		this.itemService = itemService; 
 	}
 	@PostMapping(value = "/login.do")
 	public String CheckMember(@ModelAttribute MemberVO memberVO,Model model, HttpSession session) {
@@ -33,6 +36,7 @@ public class MemberController {
 			model.addAttribute("memberVO", vo);
 			session.setAttribute("memberVO", vo);
 			System.out.println(model.getAttribute("memberVO"));
+			model.addAttribute("itemList", itemService.getItemList());
 			return "logon";
 		}
 		

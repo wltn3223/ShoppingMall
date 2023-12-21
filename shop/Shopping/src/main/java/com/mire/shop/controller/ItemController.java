@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mire.shop.Service.item.ItemService;
 import com.mire.shop.model.ItemVO;
@@ -24,11 +25,9 @@ public class ItemController {
 	}
 	
 	@PostMapping("/insert.do")
-	public String insertItem(@ModelAttribute ItemVO vo, HttpServletRequest request, Model model) {
+	public String insertItem(@ModelAttribute ItemVO vo, HttpServletRequest request) {
 		itemService.insertItem(vo, request);
-		model.addAttribute("itemList", itemService.getItemList());
-		System.out.println(itemService.getItemList().size());
-		return "itemList";
+		return "redirect:/item/getList.do";
 	}
 	
 	@GetMapping("/getList.do")
@@ -36,9 +35,16 @@ public class ItemController {
 		model.addAttribute("itemList", itemService.getItemList());
 		return "itemList";
 	}
+	@GetMapping("/getInfo.do")
+	public String getItemInfo(Model model, @RequestParam int no, @ModelAttribute ItemVO itemVO) {
+		ItemVO vo = itemService.getItem(itemVO);
+		model.addAttribute("itemVO", vo);
+		return "getItemInfo";
+	}
 	
 	@GetMapping("/getMain.do")
 	public String getList(Model model) {
+		
 		model.addAttribute("itemList", itemService.getItemList());
 		return "logon";
 	}

@@ -9,11 +9,28 @@
 </head>
 <body>
 <%@include file="top.jsp" %>
-<c:forEach items="${itemList}" var="itemVO">
-    ${itemVO.name}
-    ${itemVO.price}
-    <img alt="" src="${pageContext.request.contextPath}/resources/img/${itemVO.imgName}" style="width: 50px">
-</c:forEach>
+<div class="container">
+<div class="row mt-3">
+			<c:forEach items="${itemList}" var="itemVO" begin="0" end="23">
+				<div class="col-md-2 mb-3">
+					<!-- Adjusted column size to fit 5 cards per row -->
+					<div class="card h-50">
+						<!-- Reduced card height -->
+						<a href="/item/getInfo.do?no=${itemVO.no}"> <img class="card-img-top"
+							src="${pageContext.request.contextPath}/resources/img/${itemVO.imgName}"
+							alt="Card image">
+						</a>
+						<div class="card-body">
+							<h5 class="card-title text-truncate">${itemVO.name}</h5>
+							<p class="card-text">${itemVO.price}</p>
+							<!-- Add more item details as needed -->
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+
+	</div>
  <%@include file="bottom.jsp" %>
 </body>
 </html>

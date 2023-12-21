@@ -62,22 +62,23 @@ public class ItemServiceImpl implements ItemService {
 	
 
 	@Override
-	public void updateItem(@ModelAttribute ItemVO vo) {
+	public void updateItem(ItemVO vo) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteItem(@ModelAttribute ItemVO vo) {
+	public void deleteItem(ItemVO vo) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public ItemVO getItem(@ModelAttribute ItemVO vo) {
+	public ItemVO getItem(ItemVO vo) {
 		// TODO Auto-generated method stub
 		return itemDAO.getItem(vo.getNo());
 	}
+	
 	@Override
 	public List<ItemVO> getItemList() {
 		// TODO Auto-generated method stub

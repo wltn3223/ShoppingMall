@@ -16,7 +16,7 @@
 
     <form action="/item/insert.do" method="post" enctype="multipart/form-data">
     	<div class="form-group">
-    	<input type: "text" name="memberId" value="${memberVO.id}" class="form-control" readonly="readonly"/>
+    	<input type="text" name="memberId" value="${memberVO.id}" class="form-control" readonly="readonly"/>
     	</div>
         <div class="form-group">
             <label for="itemName">상품 이름:</label>
@@ -34,7 +34,6 @@
                 <option value="electronic">전자제품</option>
                 <option value="clothing">의류</option>
                 <option value="food">식품</option>
-                <!-- 다른 카테고리를 필요에 따라 추가하세요 -->
             </select>
         </div>
 

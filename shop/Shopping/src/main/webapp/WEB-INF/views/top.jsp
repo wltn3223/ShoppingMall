@@ -87,7 +87,7 @@ body {
 							href="../ItemInsert.jsp">상품 등록</a></li>
 					</c:if>
 					<c:if test="${memberVO eq null}">
-						<li class="nav-item"><a class="nav-link" href="../loing.jsp">상품
+						<li class="nav-item"><a class="nav-link" href="../login.jsp">상품
 								등록</a></li>
 					</c:if>
 
@@ -97,7 +97,21 @@ body {
 	</nav>
 
 
-	<div class="container mt-3"></div>
+<div class="search-box justify-content-center d-flex my-3">
+    <form class="form-inline">
+        <div class="form-group m-0">
+            <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search" style="width: 600px;">
+        </div>
+        <div class="form-group search-options m-0">
+            <select class="form-control" id="searchType">
+                <option value="content">제목</option>
+                <option value="title">내용</option>
+            </select>
+        </div>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+    </form>
+</div>
+	
 
 </body>
 </html>

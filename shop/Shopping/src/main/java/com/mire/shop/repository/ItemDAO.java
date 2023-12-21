@@ -19,7 +19,7 @@ public class ItemDAO {
 		private Connection conn = null;
 		private PreparedStatement stmt = null;
 		private ResultSet rs = null;
-		private final String ITEM_GET_ALL = "select * from ITEM";
+		private final String ITEM_GET_ALL = "select * from ITEM order by ITEM_REGDATE desc";
 		private final String ITEM_GET = "select  * from ITEM where ITEM_NO = ?";
 		private final String ITEM_INSERT = "INSERT INTO ITEM (ITEM_NO, MEMBER_ID, ITEM_NAME, ITEM_PRICE, ITEM_TYPE, ITEM_DETAIL, ITEM_IMGNAME)"
 				+ "VALUES ((select nvl(max(ITEM_NO), 0)+1 from item),?,?,?,?,?,?)";
@@ -40,7 +40,7 @@ public class ItemDAO {
 				rs = stmt.executeQuery();
 				if (rs.next()) {
 					item = new ItemVO();
-					item.setNo(Integer.parseInt(rs.getString("ITEM_NO ")));
+					item.setNo(Integer.parseInt(rs.getString("ITEM_NO")));
 					item.setMemberId(rs.getString("Member_ID"));
 					item.setName(rs.getString("ITEM_NAME"));
 					item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));
@@ -96,7 +96,7 @@ public class ItemDAO {
 				rs = stmt.executeQuery();
 				if (rs.next()) {
 					item = new ItemVO();
-					item.setNo(Integer.parseInt(rs.getString("ITEM_NO ")));
+					item.setNo(Integer.parseInt(rs.getString("ITEM_NO")));
 					item.setMemberId(rs.getString("Member_ID"));
 					item.setName(rs.getString("ITEM_NAME"));
 					item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));

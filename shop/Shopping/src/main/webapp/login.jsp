@@ -44,6 +44,7 @@
  		width:70vw;
       margin: auto;
       margin-top: 100px; /* Add top margin to center the login box vertically */
+
       border: 1px solid #ced4da; /* Lighter border color */
       border-radius: 0.25rem; /* Add a slight border-radius for a softer appearance */
       padding: 20px;
