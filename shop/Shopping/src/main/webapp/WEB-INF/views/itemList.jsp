@@ -10,6 +10,7 @@
 <body>
 <%@include file="top.jsp" %>
 <div class="container">
+<div class="d-block"><h1>현재 판매중인 상품</h1><hr></div>
 <div class="row mt-3">
 			<c:forEach items="${itemList}" var="itemVO" begin="0" end="23">
 				<div class="col-md-2 mb-3">

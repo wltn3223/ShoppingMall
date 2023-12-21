@@ -20,6 +20,9 @@
                 <p><strong>가격:</strong> ${itemVO.price}</p>
                 <p><strong>갯수</strong> <button type="button" onclick="count('plus')" class="mx-2">+</button><span id="result">1</span><button type="button" onclick="count('minus')" class="mx-3">-</button></p>
                 <p><strong>종류:</strong> ${itemVO.type}</p>
+               <p>Delivery Info배송정보</p> 
+               <p>출고 정보 도움말 보기 결제 3일 이내 출고</p> 
+               <p>배송 정보 국내 배송 / 입점사 배송 / 롯데택배</p> 
                 <p><strong>설명:</strong> ${itemVO.detail}</p>
                 
                 <div class="mt-3">
