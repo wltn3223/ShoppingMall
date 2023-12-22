@@ -10,7 +10,7 @@
 <body>
 
 <!-- Container for Bottom Content -->
-<div class="container mt-3" style="margin-top: 100px">
+<div class="container" >
 
     <!-- Bottom JSP Content Goes Here -->
     <p style="font-size: 14px">

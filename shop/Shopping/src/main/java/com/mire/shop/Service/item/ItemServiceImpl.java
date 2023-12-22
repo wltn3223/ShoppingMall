@@ -1,6 +1,10 @@
 package com.mire.shop.Service.item;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,15 +37,17 @@ public class ItemServiceImpl implements ItemService {
 	    
 
 	    if (uploadFile != null) {
-	    	 UUID randomName = UUID.randomUUID();
+	    	 
+	    	UUID randomName = UUID.randomUUID();
+	    	 
 	        vo.setImgName(randomName + "_" + uploadFile.getOriginalFilename());
 
-	        String relativePath = "/resources/img"; // Relative path within the webapp directory
+	        String relativePath = "/resources/img"; 
 
-	        // Use the servlet context to get the absolute path to the webapp directory
 	        String absolutePath = request.getServletContext().getRealPath(relativePath);
 
 	        File directory = new File(absolutePath);
+	        
 	        if (!directory.exists()) {
 	            directory.mkdirs();
 	        }
@@ -68,9 +74,23 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void deleteItem(ItemVO vo) {
+	public void deleteItem(ItemVO itemvo, HttpServletRequest request) {
 		// TODO Auto-generated method stub
+		 String relativePath = "/resources/img"; 
+		 String absolutePath = request.getServletContext().getRealPath(relativePath);
+		 
+		 Path filePath = Paths.get(absolutePath + File.separator + itemvo.getImgName());
+		 System.out.println(filePath);
+		 
+		 try {
+			Files.delete(filePath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		itemDAO.deleteItem(itemvo.getNo());
+		
 	}
 
 	@Override
@@ -83,6 +103,9 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemVO> getItemList() {
 		// TODO Auto-generated method stub
 		return itemDAO.getItemList();
+	}
+	public List<ItemVO> getItemList(String memberId){
+		return itemDAO.getItemList(memberId);
 	}
 
 }

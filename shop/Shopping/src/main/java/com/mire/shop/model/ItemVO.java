@@ -75,8 +75,9 @@ public class ItemVO {
 	}
 	@Override
 	public String toString() {
-		return "ItemVO [no=" + no + ", name=" + name + ", price=" + price + ", type=" + type + ", detail=" + detail
-				+ ", file=" + file + ", imgName=" + imgName + ", regdate=" + regdate + "]";
+		return "ItemVO [no=" + no + ", memberId=" + memberId + ", name=" + name + ", price=" + price + ", type=" + type
+				+ ", detail=" + detail + ", imgName=" + imgName + ", file=" + file + ", regdate=" + regdate + "]";
 	}
+	
 	
 }

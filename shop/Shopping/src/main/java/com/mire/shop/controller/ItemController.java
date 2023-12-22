@@ -1,6 +1,7 @@
 package com.mire.shop.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,6 +48,19 @@ public class ItemController {
 		
 		model.addAttribute("itemList", itemService.getItemList());
 		return "logon";
+	}
+	
+	@GetMapping("/getMyItemList.do")
+	public String getMyList(@RequestParam String memberId, Model model) {
+		model.addAttribute("itemList", itemService.getItemList(memberId));
+		return "getMyItemList";
+	}
+	
+	@GetMapping("/deleteItem.do")
+	public String deleteItem(@RequestParam int no, Model model,HttpServletRequest request,
+			@RequestParam String memberId, @RequestParam String imgName, @ModelAttribute ItemVO itemvo) {
+		itemService.deleteItem(itemvo, request);
+		return "redirect:/item/getMyItemList.do?memberId=" + memberId;
 	}
 	
 	

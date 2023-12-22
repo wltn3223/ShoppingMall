@@ -21,11 +21,12 @@ public class ItemDAO {
 		private ResultSet rs = null;
 		private final String ITEM_GET_ALL = "select * from ITEM order by ITEM_REGDATE desc";
 		private final String ITEM_GET = "select  * from ITEM where ITEM_NO = ?";
+		private final String ITEM_GET_MEMBER = "select  * from ITEM where Member_id = ? order by ITEM_REGDATE desc";
 		private final String ITEM_INSERT = "INSERT INTO ITEM (ITEM_NO, MEMBER_ID, ITEM_NAME, ITEM_PRICE, ITEM_TYPE, ITEM_DETAIL, ITEM_IMGNAME)"
 				+ "VALUES ((select nvl(max(ITEM_NO), 0)+1 from item),?,?,?,?,?,?)";
 		
 		private final String ITEM_UPDATE = "UPDATE MEMBER SET MEMBER_PASSWD = ?,MEMBER_NAME = ?, MEMBER_PHONE = ? WHERE MEMBER_ID = ? ";
-		private final String ITEM_DELETE = "DELETE FROM MEMBER where ITEM_NO  = ?";
+		private final String ITEM_DELETE = "DELETE FROM ITEM where ITEM_NO  = ?";
 		
 		
 		
@@ -64,6 +65,35 @@ public class ItemDAO {
 			try {
 				conn = JDBCUtil.getConnection();
 				stmt = conn.prepareStatement(ITEM_GET_ALL);
+				rs = stmt.executeQuery();
+				while(rs.next()) {
+					ItemVO item = new ItemVO();
+					item.setNo(Integer.parseInt(rs.getString("ITEM_NO")));
+					item.setMemberId(rs.getString("Member_ID"));
+					item.setName(rs.getString("ITEM_NAME"));
+					item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));
+					item.setType(rs.getString("ITEM_TYPE"));
+					item.setDetail(rs.getString("ITEM_DETAIL"));
+					item.setImgName(rs.getString("ITEM_IMGNAME"));
+					item.setRegdate(rs.getString("ITEM_REGDATE"));
+					
+					itemlist.add(item);					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				JDBCUtil.close(rs, stmt, conn);
+			}
+			return itemlist;
+		}
+		
+		public List<ItemVO> getItemList(String Member_id) {
+			List<ItemVO> itemlist = new ArrayList();
+			
+			try {
+				conn = JDBCUtil.getConnection();
+				stmt = conn.prepareStatement(ITEM_GET_MEMBER);
+				stmt.setString(1, Member_id);
 				rs = stmt.executeQuery();
 				while(rs.next()) {
 					ItemVO item = new ItemVO();
@@ -151,20 +181,20 @@ public class ItemDAO {
 //			}
 //			
 //		}
-//		public void deleteMember(MemberVO  vo) {
-//			System.out.println("delete Member");
-//			try {
-//				conn = JDBCUtil.getConnection();
-//				stmt = conn.prepareStatement(MEMBER_DELETE);
-//				stmt.setString(1, vo.getId());
-//				stmt.executeUpdate();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			} finally {
-//				JDBCUtil.close(rs, stmt, conn);
-//			}
-//			
-//		}
+		public void deleteItem(int no) {
+			System.out.println("delete Member");
+			try {
+				conn = JDBCUtil.getConnection();
+				stmt = conn.prepareStatement(ITEM_DELETE);
+				stmt.setInt(1, no);
+				stmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JDBCUtil.close(rs, stmt, conn);
+			}
+			
+		}
 
 		
 
