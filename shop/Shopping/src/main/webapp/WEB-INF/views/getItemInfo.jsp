@@ -9,7 +9,7 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <%@include file="top.jsp"%>
+    <%@include file="../../top.jsp"%>
     <div class="container">
         <div class="mb-5 mx-3 d-flex justify-content-start">
             <div class="col-md-6" style="height: 600px; display: flex; align-items: center;">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <%@include file="bottom.jsp"%>
+    <%@include file="../../bottom.jsp"%>
 </body>
 <script type="text/javascript">
 function count(type)  {

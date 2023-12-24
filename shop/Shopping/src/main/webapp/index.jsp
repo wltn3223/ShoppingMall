@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
 
  <%
- response.sendRedirect("/item/getMain.do");
+ response.sendRedirect("/member/getMain.do");
  %>

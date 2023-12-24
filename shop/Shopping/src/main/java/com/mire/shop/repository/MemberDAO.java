@@ -84,7 +84,7 @@ public class MemberDAO {
 		return member;
 	}
 	
-	public void insertMember(MemberVO  vo) {
+	public boolean insertMember(MemberVO  vo) {
 		System.out.println("insert Member");
 		try {
 			conn = JDBCUtil.getConnection();
@@ -96,9 +96,11 @@ public class MemberDAO {
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			JDBCUtil.close(rs, stmt, conn);
 		}
+		return true;
 		
 	}
 	

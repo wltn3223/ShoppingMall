@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService {
 	
 
 	@Override
-	public void insertMember(MemberVO member) {
-		memberDAO.insertMember(member);
+	public boolean insertMember(MemberVO member) {
+		return memberDAO.insertMember(member);
 
 	}
 

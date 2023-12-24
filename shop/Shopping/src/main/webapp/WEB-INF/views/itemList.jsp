@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@include file="top.jsp" %>
+<%@include file="../../top.jsp" %>
 <div class="container">
 <div class="d-block"><h1>현재 판매중인 상품</h1><hr></div>
 <div class="row mt-3">
@@ -33,6 +33,8 @@
 		</div>
 
 	</div>
- <%@include file="bottom.jsp" %>
+ <%@include file="../../bottom.jsp" %>
+ 
 </body>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </html>

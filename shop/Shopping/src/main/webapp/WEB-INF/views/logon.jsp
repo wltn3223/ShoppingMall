@@ -11,10 +11,9 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
-	<%@include file="top.jsp"%>
+	<%@include file="../../top.jsp"%>
 	<div class="container mt-3">
 
-		<!-- Slideshow -->
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-ride="carousel">
 			<!-- Slides -->
@@ -69,25 +68,11 @@
 		</div>
 
 	</div>
-	<%@include file="bottom.jsp"%>
+	<%@include file="../../bottom.jsp"%>
 
 	<!-- 부트스트랩 스크립트 추가 -->
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
-<script>
-	function validateForm() {
-		var id = document.getElementsByName("id")[0].value;
-		var password = document.getElementsByName("password")[0].value;
 
-		// Check if the values contain only spaces
-		if (id.trim() === "" || password.trim() === "") {
-			alert("아이디와 비밀번호를 입력하세요.");
-			return false; // Prevent form submission
-		}
-
-		// If not, the form will be submitted
-		return true;
-	}
-</script>
 </html>

@@ -20,11 +20,19 @@ body {
 }
 
 .navbar-brand img {
-	height: 30px;
+	height: 30px; /* Adjust the height as needed */
 }
 
 .navbar-dark .navbar-toggler-icon {
 	background-color: #fff;
+}
+
+.navbar-nav {
+	margin-left: auto; /* Move the navigation items to the right */
+}
+
+.navbar-nav .nav-item {
+	margin-left: 10px; /* Adjust the spacing between navigation items */
 }
 </style>
 </head>
@@ -34,7 +42,7 @@ body {
 	<nav class="navbar navbar-expand-lg navbar-dark">
 		<div class="container">
 			<a class="navbar-brand" href="#"> <img
-				src="./resources/img/logo.png" alt="Logo"> <span
+				src="../resources/img/logo.png" alt="Logo"> <span
 				style="color: white">미래 마켓</span>
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -42,35 +50,31 @@ body {
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse justify-content-end"
-				id="navbarNav">
+			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
-				<c:if test="${memberVO eq null}">
-						
-					<li class="nav-item"><a class="nav-link" href="./login.jsp"
-						style="color: white">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="./join.jsp"
-						style="color: white">회원가입</a></li>
-					</c:if>
-					
-					<c:if test="${memberVO ne null}">
+					<c:if test="${memberId ne null}">
 						<li class="nav-item"><a class="nav-link" href="#"
-							style="color: white"> ${memberVO.id}님 안녕하세요</a></li>
+							style="color: white"> ${memberId}님 안녕하세요</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/member/getinfo.do?id=${memberVO.id}" style="color: white">내정보</a>
+							href="/member/getinfo.do?id=${memberId}" style="color: white">내정보</a>
 						</li>
 						<li class="nav-item"><a class="nav-link"
 							href="/member/logout.do">로그아웃</a></li>
 					</c:if>
+					<c:if test="${memberId eq null}">
+						<li class="nav-item"><a class="nav-link" href="../login.jsp"
+							style="color: white"> 로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="../join.jsp"
+							style="color: white">회원가입</a></li>
+					</c:if>
 
-
-					<!-- Add more navigation items as needed -->
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container">
+			<!-- Added container class -->
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<!-- Left-aligned navigation items -->
 				<ul class="navbar-nav">
@@ -78,12 +82,12 @@ body {
 							class="sr-only">(current)</span></a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/item/getList.do">현재 판매중인 상품</a></li>
-					<c:if test="${memberVO ne null}">
+					<c:if test="${memberId ne null}">
 						<li class="nav-item"><a class="nav-link"
-							href="./ItemInsert.jsp">상품 등록</a></li>
+							href="/item/insert.do">상품 등록</a></li>
 					</c:if>
-					<c:if test="${memberVO eq null}">
-						<li class="nav-item"><a class="nav-link" href="./login.jsp">상품
+					<c:if test="${memberId eq null}">
+						<li class="nav-item"><a class="nav-link" href="../login.jsp">상품
 								등록</a></li>
 					</c:if>
 
@@ -91,23 +95,23 @@ body {
 			</div>
 		</div>
 	</nav>
+
+
 	<div class="search-box justify-content-center d-flex my-3">
-    <form class="form-inline">
-        <div class="form-group m-0">
-            <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search" style="width: 600px;">
-        </div>
-        <div class="form-group search-options m-0">
-            <select class="form-control" id="searchType">
-                <option value="content">제목</option>
-                <option value="title">내용</option>
-            </select>
-        </div>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
-    </form>
-</div>
-
-
-
+		<form class="form-inline">
+			<div class="form-group m-0">
+				<input class="form-control mr-2" type="search" placeholder="Search"
+					aria-label="Search" style="width: 600px;">
+			</div>
+			<div class="form-group search-options m-0">
+				<select class="form-control" id="searchType">
+					<option value="content">제목</option>
+					<option value="title">내용</option>
+				</select>
+			</div>
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+		</form>
+	</div>
 
 
 </body>

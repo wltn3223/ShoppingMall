@@ -6,17 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아이템 등록 폼</title>
     <!-- 부트스트랩 링크 추가 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet" crossorigin="anonymous"/>
+
 </head>
 <body>
-<%@include file="top.jsp" %>
+<%@include file="../../top.jsp" %>
 
 <div class="container mt-5">
     <h2>상품 판매</h2>
 
     <form action="/item/insert.do" method="post" enctype="multipart/form-data">
     	<div class="form-group">
-    	<input type="text" name="memberId" value="${memberVO.id}" class="form-control" readonly="readonly"/>
+    	<input type="text" name="memberId" value="${memberId}" class="form-control" readonly="readonly"/>
     	</div>
         <div class="form-group">
             <label for="itemName">상품 이름:</label>
@@ -50,12 +54,9 @@
         <button type="submit" class="btn btn-primary">등록</button>
     </form>
 </div>
-<%@include file="bottom.jsp" %>
+<%@include file="../../bottom.jsp" %>
 
-<!-- 부트스트랩 자바스크립트 및 제이쿼리 스크립트 추가 -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

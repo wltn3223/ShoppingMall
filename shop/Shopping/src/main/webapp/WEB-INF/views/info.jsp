@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <title>Member Information</title>
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+   
 </head>
 <body style="position: relative;">
-    <%@include file="top.jsp"%>
+    <%@include file="../../top.jsp"%>
    <ul class="nav flex-column nav" style="position: absolute;">
   <li class="nav-item">
     <a class="nav-link active" aria-current="page" href="/item/getMyItemList.do?memberId=${memberVO.id}">내가 판매중인 상품</a>
@@ -51,7 +48,9 @@
         </form>
     </div>
     
-    <%@include file="bottom.jsp"%>
+    <%@include file="../../bottom.jsp"%>
+
+</body>
 
     <!-- Include Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -65,7 +64,8 @@
         src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-</body>
+        
+        
 <style>
 .nav{
 top:250px;

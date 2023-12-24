@@ -8,7 +8,7 @@
 <title>내가 판매중인 아이템 목록</title>
 </head>
 <body>
-	<%@include file="top.jsp"%>
+	<%@include file="../../top.jsp"%>
 	<div class="container mt-3">
 		<div class="d-block">
 			<h1>내가 판매중인 상품</h1>
@@ -49,7 +49,7 @@
 
 
 	</div>
-	<%@include file="bottom.jsp"%>
+	<%@include file="../../bottom.jsp"%>
 
 </body>
     <style>
@@ -71,8 +71,12 @@
             background-color: #e0e0e0; /* Change this to the desired hover color */
         }
         </style>
-        <script>
-        
-        
-        </script>
+         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+    <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </html>

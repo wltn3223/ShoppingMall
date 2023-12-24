@@ -31,6 +31,11 @@ public class ItemController {
 		return "redirect:/item/getList.do";
 	}
 	
+	@GetMapping("/insert.do")
+	public String insertItemForm() {
+		return "ItemInsert";
+	}
+	
 	@GetMapping("/getList.do")
 	public String getItemList(Model model) {
 		model.addAttribute("itemList", itemService.getItemList());
@@ -43,12 +48,6 @@ public class ItemController {
 		return "getItemInfo";
 	}
 	
-	@GetMapping("/getMain.do")
-	public String getList(Model model) {
-		
-		model.addAttribute("itemList", itemService.getItemList());
-		return "logon";
-	}
 	
 	@GetMapping("/getMyItemList.do")
 	public String getMyList(@RequestParam String memberId, Model model) {

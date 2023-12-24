@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.mire.shop.Service.item.ItemService;
@@ -28,25 +30,39 @@ public class MemberController {
 		this.memberService = memberService;
 		this.itemService = itemService; 
 	}
-	@PostMapping(value = "/login.do")
+	
+	@PostMapping(value = "/login.do") // 로그인
 	public String CheckMember(@ModelAttribute MemberVO memberVO,Model model, HttpSession session) {
 		MemberVO vo = memberService.getMember(memberVO);
 		
 		if(vo != null) {
-			model.addAttribute("memberVO", vo);
-			session.setAttribute("memberVO", vo);
-			System.out.println(model.getAttribute("memberVO"));
+			session.setAttribute("memberId", memberVO.getId());
+			session.setMaxInactiveInterval(25);
 			model.addAttribute("itemList", itemService.getItemList());
 			return "logon";
 		}
 		
 		return "redirect:/error.jsp";
 	}
-	@RequestMapping("/logout.do")
+	@RequestMapping("/logout.do") // 로그아웃
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/item/getMain.do";
+		return "redirect:/member/getMain.do";
 		
+	}
+	@GetMapping(value = "/login-check.do") // 아이디 중복확인
+	@ResponseBody
+	public String idCheck(@RequestParam String memberId) {
+		MemberVO  vo =  memberService.getMember(memberId);
+		return (vo != null)? "1": "0";
+		
+		
+	}
+	@GetMapping("/getMain.do") // 메인화면
+	public String getList(Model model) {
+		
+		model.addAttribute("itemList", itemService.getItemList());
+		return "logon";
 	}
 	
 	@GetMapping("/getinfo.do")
@@ -57,16 +73,13 @@ public class MemberController {
 	}
 	
 	@PostMapping(value = "/update.do")
-	public String updateMember(@RequestParam int price,  @ModelAttribute MemberVO memberVO,Model model, HttpSession session) {
+	public String updateMember(@ModelAttribute MemberVO memberVO ,Model model, HttpSession session) {
 		memberService.updateMember(memberVO);
-		
 		model.addAttribute("memberVO",memberService.getMember(memberVO.getId()));
-		session.setAttribute("memberVO", memberVO);
-		
-		return "logon";
+		return "redirect: /WEB-INF/views/logon/jsp";
 	}
 	
-	@GetMapping(value = "/delete.do")
+	@PostMapping(value = "/delete.do")
 	public String deleteMember(@ModelAttribute MemberVO memberVO, HttpSession session) {
 		System.out.println(memberVO);
 		memberService.deleteMember(memberVO);
@@ -75,8 +88,10 @@ public class MemberController {
 		return "redirect:/index.jsp";
 	}
 	@PostMapping(value = "/insert.do")
-	public String insertMember(@ModelAttribute MemberVO memberVO) {
-		memberService.insertMember(memberVO);
-		return "redirect:/login.jsp";
+	@ResponseBody
+	public String insertMember(@RequestBody MemberVO memberVO) {
+		boolean result = memberService.insertMember(memberVO);
+		return (result)?"1":"0";
 	}
+	
 }
