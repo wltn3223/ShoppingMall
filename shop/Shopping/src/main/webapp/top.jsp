@@ -78,7 +78,7 @@ body {
 					<li class="nav-item active"><a class="nav-link" href="/index.jsp">Home<span
 							class="sr-only"></span></a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/item/getList.do">현재 판매중인 상품</a></li>
+						href="/item/getList.do?num=1">현재 판매중인 상품</a></li>
 					<c:if test="${memberId ne null}">
 						<li class="nav-item"><a class="nav-link"
 							href="/item/insert.do">상품 등록</a></li>

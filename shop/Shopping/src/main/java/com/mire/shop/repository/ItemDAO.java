@@ -19,6 +19,21 @@ public class ItemDAO {
 		private Connection conn = null;
 		private PreparedStatement stmt = null;
 		private ResultSet rs = null;
+		private final String ITEM_GET_PAGE = "SELECT *"
+			    + " FROM ("
+			    + "     SELECT "
+			    + "         outer_query.*, "
+			    + "         ROWNUM AS rnum"
+			    + "     FROM ("
+			    + "         SELECT "
+			    + "             ITEM.*"
+			    + "         FROM ITEM"
+			    + "         ORDER BY ITEM_NO DESC"
+			    + "     ) outer_query"
+			    + "     WHERE ROWNUM <= ?"
+			    + ")"
+			    + " WHERE rnum >= ?";
+
 		private final String ITEM_GET_ALL = "select * from ITEM order by ITEM_REGDATE desc";
 		private final String ITEM_GET = "select  * from ITEM where ITEM_NO = ?";
 		private final String ITEM_GET_MEMBER = "select  * from ITEM where Member_id = ? order by ITEM_REGDATE desc";
@@ -86,6 +101,40 @@ public class ItemDAO {
 				JDBCUtil.close(rs, stmt, conn);
 			}
 			return itemlist;
+		
+		}
+		
+		public List<ItemVO> getItemList(int page, int amount) {
+		    System.out.println("특정 아이템리스트조회");
+		    List<ItemVO> itemlist = new ArrayList();
+
+		    try {
+		        conn = JDBCUtil.getConnection();
+		        stmt = conn.prepareStatement(ITEM_GET_PAGE);
+		        int startRow = (page - 1) * amount + 1;
+		        int endRow = page * amount;
+		        stmt.setInt(1, endRow);
+		        stmt.setInt(2, startRow);
+		        rs = stmt.executeQuery();
+		        while (rs.next()) {
+		            ItemVO item = new ItemVO();
+		            item.setNo(Integer.parseInt(rs.getString("ITEM_NO")));
+		            item.setMemberId(rs.getString("Member_ID"));
+		            item.setName(rs.getString("ITEM_NAME"));
+		            item.setPrice(Integer.parseInt(rs.getString("ITEM_PRICE")));
+		            item.setType(rs.getString("ITEM_TYPE"));
+		            item.setDetail(rs.getString("ITEM_DETAIL"));
+		            item.setImgName(rs.getString("ITEM_IMGNAME"));
+		            item.setRegdate(rs.getString("ITEM_REGDATE"));
+
+		            itemlist.add(item);
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        JDBCUtil.close(rs, stmt, conn);
+		    }
+		    return itemlist;
 		}
 		
 		public List<ItemVO> getItemList(String Member_id) {

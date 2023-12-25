@@ -1,6 +1,6 @@
 package com.mire.shop.Service.item;
 
-import java.util.List;
+import java.util.List;	
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,5 +13,6 @@ public interface ItemService {
 	ItemVO getItem(ItemVO vo);
 	List<ItemVO> getItemList();
 	List<ItemVO> getItemList(String memberId);
+	List<ItemVO> getItemList(int start, int end);
 
 }

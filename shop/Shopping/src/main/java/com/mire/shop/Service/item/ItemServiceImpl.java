@@ -11,7 +11,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -107,5 +106,8 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemVO> getItemList(String memberId){
 		return itemDAO.getItemList(memberId);
 	}
-
+	@Override
+	public List<ItemVO> getItemList(int start, int end){
+	return itemDAO.getItemList(start, end);
+			}
 }

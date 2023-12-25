@@ -3,7 +3,6 @@ package com.mire.shop.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mire.shop.Service.item.ItemService;
 import com.mire.shop.model.ItemVO;
+import com.mire.shop.model.PagingCriteria;
+import com.mire.shop.model.PageMaker;
 
 @Controller
 @RequestMapping("/item")
@@ -31,7 +32,7 @@ public class ItemController {
 	@PostMapping("/insert.do")
 	public String insertItem(@ModelAttribute ItemVO vo, HttpServletRequest request) {
 		itemService.insertItem(vo, request);
-		return "redirect:/item/getList.do";
+		return "ItemInsert";
 	}
 	
 	@GetMapping("/insert.do")
@@ -40,9 +41,17 @@ public class ItemController {
 	}
 	
 	@GetMapping("/getList.do")
+	public String getItemList(Model model, PagingCriteria cri) {
+		List<ItemVO> itemList =  itemService.getItemList(cri.getPageNum(), cri.getAmount());
+	     int  total = itemService.getItemList().size();
+		  model.addAttribute("itemList", itemList);
+	      model.addAttribute("paging", new PageMaker(cri, total));
+		 return "itemList"; // °á°ú
+	}
+	
+	@GetMapping("/items")
 	@ResponseBody
-	public List<ItemVO> getItemList(Model model) {
-		
+	public List<ItemVO> MainItemList(Model model) {
 		return itemService.getItemList();
 	}
 	@GetMapping("/getInfo.do")
