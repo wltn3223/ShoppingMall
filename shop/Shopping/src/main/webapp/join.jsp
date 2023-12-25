@@ -53,64 +53,73 @@
 <!-- 부트스트랩 및 팝퍼 및 제이쿼리 스크립트 추가 -->
 <!-- 사용자 정의 스크립트 -->
 <script>
+	let idCheckDone = false;
 
-function checkId() {
-    let memberId = $('#id').val(); // id에 입력되는값
-    if (memberId === '') {
-        alert("id에 아무것도 입력하지 않으셨습니다.");
-        return;
-    }
+	function checkId() {
+		let memberId = $('#id').val();
+		if (memberId === '') {
+			alert("ID를 입력하세요.");
+			return;
+		}
 
-    $.ajax({
-        url: "/member/login-check.do",
-        type: "get",
-        data: {"memberId": memberId},
-        dataType: 'json',
-        success: function (result) {
-            var checkIdElement = $("#checkId");
-            if (result === 0) {
-            	alert('사용할 수 있는 id입니다.');
-            } else {
-            	alert('사용할 수 없는 id입니다.');
-            }
-        },
-        error: function () {
-            alert("서버 요청 실패");
-        }
-    });
-}
+		$.ajax({
+			url : "/member/login-check",
+			type : "get",
+			data : {
+				"memberId" : memberId
+			},
+			dataType : 'json',
+			success : function(result) {
+				var checkIdElement = $("#checkId");
+				if (result === "0") {
+					alert('사용할 수 있는 ID입니다.');
+					// Set the flag to indicate that ID check is done
+					idCheckDone = true;
+				} else {
+					alert('사용할 수 없는 ID입니다.');
+					// Reset the flag if ID is not available
+					idCheckDone = false;
+				}
+			},
+			error : function() {
+				alert("서버 요청 실패");
+			}
+		});
+	}
 
+	function join() {
+		// Check if ID check has been performed
+		if (!idCheckDone) {
+			alert("ID 중복 체크를 먼저 진행해주세요.");
+			return;
+		}
 
+		// Proceed with registration logic
+		let data = {
+			id : $('#id').val(),
+			passwd : $('#passwd').val(),
+			name : $('#name').val(),
+			phone : $('#phone').val()
+		};
 
-
-  // 폼 제출 이벤트 핸들러
- function join() {
-    // 각 입력 필드의 값을 가져오기
-    let data = {
-        id: $('#id').val(),
-        passwd: $('#passwd').val(), // Corrected selector
-        name: $('#name').val(),
-        phone: $('#phone').val()
-    };
-
-    $.ajax({
-        url: "/member/insert.do",
-        type: "post",
-        data: JSON.stringify(data),
-        dataType: "json",
-        contentType: 'application/json',
-        success: function (result) {
-            if (result === "1") {
-                alert("회원가입 성공");
-            } else {
-                alert("회원가입 실패");
-            }
-        },
-        error: function () {
-            alert("회원가입 에러 발생");
-        }
-    });
-}
-  
+		$.ajax({
+			url : "/member/join",
+			type : "post",
+			data : JSON.stringify(data),
+			dataType : "json",
+			contentType : 'application/json',
+			success : function(result) {
+				if (result === "1") {
+					alert("회원가입 성공");
+					location.href = "index.jsp";
+				} else {
+					alert("회원가입 실패");
+				}
+			},
+			error : function() {
+				alert("회원가입 에러 발생");
+			}
+		});
+	}
 </script>
 </html>

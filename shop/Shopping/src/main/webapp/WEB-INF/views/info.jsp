@@ -19,31 +19,28 @@
 </ul>
     <div class="container my-4">
         <h2>회원 정보</h2>
-        <form action="/member/update.do" method="post" onsubmit="return checkPassword('수정')">
+        <form action="/member/update.do" method="post" onsubmit="return checkPassword('update')">
             <div class="form-group">
                 <label for="memberId">Member ID:</label>
-                <input type="text" class="form-control" id="memberId" value="${memberVO.id}" name ="id" readonly>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" name="passwd" class="form-control" id="password" value="${memberVO.passwd}">
+                <input type="text" class="form-control" id="memberId" value="${member.id}" name ="id" readonly>
             </div>
             <div class="form-group">
                 <label for="fullName">이름:</label>
-                <input type="text" name="name" class="form-control" id="fullName" value="${memberVO.name}">
+                <input type="text" name="name" class="form-control" id="fullName" value="${member.name}">
             </div>
             <div class="form-group">
                 <label for="phoneNumber">전화 번호:</label>
-                <input type="text" name="phone" class="form-control" id="phoneNumber" value="${memberVO.phone}">
+                <input type="text" name="phone" class="form-control" id="phoneNumber" value="${member.phone}">
             </div>
             <div class="form-group">
                 <label for="registrationDate">가입일:</label>
-                <input type="text" class="form-control" id="registrationDate" value="${memberVO.regDate}" readonly>
+                <input type="text" class="form-control" id="registrationDate" value="${member.regDate}" readonly>
             </div>
             <div class="form-group mt-3">
-                <button class="btn btn-primary ml-2">수정</button>
-                <a class="btn btn-danger ml-2" onclick="checkPassword('탈퇴')">회원탈퇴</a>
-                <a class="btn btn-danger ml-2" href="/member/login.do">뒤로가기</a>
+                <button class="btn btn-primary ml-2" type ="button" onclick="checkPassword('update')">수정</button>
+                
+                <button class="btn btn-danger ml-2" type ="button" onclick="checkPassword('delete')">회원탈퇴</button>
+                <a class="btn btn-danger ml-2" href="/index.jsp">뒤로가기</a>
             </div>
         </form>
     </div>
@@ -53,9 +50,7 @@
 </body>
 
     <!-- Include Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -80,27 +75,30 @@ text-align: center;
 }
 </style>
 <script>
-    function checkPassword(type) {
-        let inputPassWd = prompt('비밀번호를 입력하세요');
-        let passwd = "${memberVO.passwd}"; // Added quotes around ${memberVO.passwd}
-        let id = "${memberVO.id}";
-        if (type === '탈퇴') {
+function checkPassword(type) {
+    let inputPasswd = prompt('비밀번호를 입력하세요');
+    let id = "${member.id}";
 
-            if (inputPassWd === passwd) {
-                alert(type + "가 완료되었습니다.");
-                location.replace("/member/delete.do?id=" + id);
-            } else {
-                alert("비밀번호가 틀렸습니다.");
+    if (type === 'delete' && inputPasswd === passwd) {
+        $.ajax({
+            url: "/member",
+            type: "DELETE",
+            data: JSON.stringify({ "id": id }),
+            dataType: "json",
+            contentType: 'application/json',
+            success: function (result) {
+                if (result === "1") {
+                    alert("회원탈퇴 성공");
+                    location.href = "/index.jsp";
+                } else {
+                    alert("회원탈퇴 실패");
+                }
+            },
+            error: function () {
+                alert("회원탈퇴 에러 발생");
             }
-        } else {
-            if (inputPassWd === passwd) {
-                alert(type + "이 완료되었습니다.");
-                return true;
-            } else {
-                alert("비밀번호가 틀렸습니다.");
-                return false;
-            }
-        }
-    }
+        }); 
+    } 
+}
 </script>
 </html>

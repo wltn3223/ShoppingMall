@@ -3,6 +3,7 @@ package com.mire.shop.Service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mire.shop.model.MemberDTO;
 import com.mire.shop.model.MemberVO;
 import com.mire.shop.repository.MemberDAO;
 
@@ -10,7 +11,6 @@ import com.mire.shop.repository.MemberDAO;
 public class MemberServiceImpl implements MemberService {
 	
 	private final MemberDAO memberDAO;
-	
 	@Autowired
 	public MemberServiceImpl(MemberDAO memberDAO) {
 		this.memberDAO = memberDAO;
@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService {
 	
 
 	@Override
-	public boolean insertMember(MemberVO member) {
-		return memberDAO.insertMember(member);
+	public void insertMember(MemberVO member) {
+		memberDAO.insertMember(member);
 
 	}
 
@@ -36,14 +36,28 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO getMember(MemberVO member) {
+	public MemberDTO getMember(MemberVO member) {
+		MemberVO vo =  memberDAO.getMember(member);
 		
-		return memberDAO.getMember(member);
+		MemberDTO dto = new MemberDTO();
+		
+		dto.setId(vo.getId());
+		dto.setName(vo.getName());
+		dto.setPhone(vo.getPhone());
+		dto.setRegDate(vo.getRegDate());
+		
+		return dto; 
 	}
 	@Override
-	public MemberVO getMember(String id) {
+	public MemberDTO getMember(String id) {
+		MemberVO vo =  memberDAO.getMember(id);
+		MemberDTO dto = new MemberDTO();
+		dto.setId(vo.getId());
+		dto.setName(vo.getName());
+		dto.setPhone(vo.getPhone());
+		dto.setRegDate(vo.getRegDate());
 		
-		return memberDAO.getMember(id);
+		return dto; 
 	}
 
 }

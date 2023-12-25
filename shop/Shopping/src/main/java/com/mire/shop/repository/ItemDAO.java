@@ -60,6 +60,7 @@ public class ItemDAO {
 		}
 		
 		public List<ItemVO> getItemList() {
+			System.out.println("아이템리스트조회");
 			List<ItemVO> itemlist = new ArrayList();
 			
 			try {

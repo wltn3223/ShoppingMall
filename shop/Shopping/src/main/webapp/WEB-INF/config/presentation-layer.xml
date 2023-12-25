@@ -39,9 +39,9 @@
 			 <mvc:exclude-mapping path="/error.jsp"/>
 			 <mvc:exclude-mapping path="/error.jsp"/>
 			 <mvc:exclude-mapping path="/item/getList.do"/>
-			 <mvc:exclude-mapping path="/member/getMain.do"/>
-			 <mvc:exclude-mapping path="/member/login.do"/>
-			 <mvc:exclude-mapping path="/member/join.do"/>
+			 <mvc:exclude-mapping path="/member/login"/>
+			 <mvc:exclude-mapping path="/member/join"/>
+			 <mvc:exclude-mapping path="/member/login-check"/>
 			<bean class="com.mire.shop.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

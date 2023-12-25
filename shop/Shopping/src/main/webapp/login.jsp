@@ -13,26 +13,24 @@
     <h1 class="text-center">로그인</h1>
     <hr>
 
-    <form action="/member/login.do" method="post" class="mb-4" onsubmit="return validateForm()">
       <div class="form-group row justify-content-center align-items-center">
         <label for="id" class="col-sm-2 col-form-label">아이디</label>
         <div class="col-sm-10">
-          <input type="text" name="id" class="form-control" required>
+          <input type="text" name="id" id="id" class="form-control" required>
         </div>
       </div>
       <div class="form-group row justify-content-center align-items-center">
         <label for="password" class="col-sm-2 col-form-label">비밀번호</label>
         <div class="col-sm-10">
-          <input type="password" name="passwd" class="form-control" required>
+          <input type="password" name="passwd" id ="passwd" class="form-control" required>
         </div>
       </div>
       <div class="form-group row justify-content-center">
         <div class="col-sm-10 d-flex justify-content-center align-items-end mt-4">
-          <input type="submit" value="로그인" class="btn btn-primary">
+          <input type="button" value="로그인" class="btn btn-primary" onclick="login()">
           <a href="./join.jsp" class="btn btn-success ml-2">회원가입</a>
         </div>
       </div>
-    </form>
   </div>
   <%@include file="bottom.jsp" %>
 
@@ -52,17 +50,40 @@
     }
 </style>
 <script>
-  function validateForm() {
-    var id = document.getElementsByName("id")[0].value;
-    var password = document.getElementsByName("password")[0].value;
+  function login() {
+    let id = document.getElementById("id").value;
+    let passwd = document.getElementById("passwd").value;
+    
+ 
 
     // Check if the values contain only spaces
-    if (id.trim() === "" || password.trim() === "") {
+    if (id.trim() === "" || passwd.trim() === "") {
       alert("아이디와 비밀번호를 입력하세요.");
-      return false; // Prevent form submission
+      return; // Prevent form submission
     }
-
-    // If not, the form will be submitted
+	$.ajax({
+		url:"/member/login",
+		type:"post",
+		data: JSON.stringify ({
+			"id": id,
+			"passwd": passwd
+		}),
+		dataType:"json",
+		contentType: 'application/json',
+		success:function(data){
+			if(data == "1"){
+				location.href = "/index.jsp";	
+			}
+			else{
+				alert("로그인 실패");
+			}
+			
+		}
+	
+		
+	})
+	
+    
     return true;
   }
 </script>

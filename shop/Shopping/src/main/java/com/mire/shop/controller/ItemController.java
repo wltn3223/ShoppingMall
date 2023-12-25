@@ -1,5 +1,7 @@
 package com.mire.shop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mire.shop.Service.item.ItemService;
 import com.mire.shop.model.ItemVO;
@@ -37,9 +40,10 @@ public class ItemController {
 	}
 	
 	@GetMapping("/getList.do")
-	public String getItemList(Model model) {
-		model.addAttribute("itemList", itemService.getItemList());
-		return "itemList";
+	@ResponseBody
+	public List<ItemVO> getItemList(Model model) {
+		
+		return itemService.getItemList();
 	}
 	@GetMapping("/getInfo.do")
 	public String getItemInfo(Model model, @RequestParam int no, @ModelAttribute ItemVO itemVO) {

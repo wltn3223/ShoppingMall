@@ -8,8 +8,10 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Top JSP</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <style>
 body {
 	background-color: #000;
@@ -56,10 +58,10 @@ body {
 						<li class="nav-item"><a class="nav-link" href="#"
 							style="color: white"> ${memberId}님 안녕하세요</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/member/getinfo.do?id=${memberId}" style="color: white">내정보</a>
+							href="/member/${memberId}" style="color: white">내정보</a>
 						</li>
-						<li class="nav-item"><a class="nav-link"
-							href="/member/logout.do">로그아웃</a></li>
+						<li class="nav-item" style="color: white"><a onclick="logout()" class="nav-link">
+						로그아웃</a></li>
 					</c:if>
 					<c:if test="${memberId eq null}">
 						<li class="nav-item"><a class="nav-link" href="../login.jsp"
@@ -78,7 +80,7 @@ body {
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<!-- Left-aligned navigation items -->
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="#">Home<span
+					<li class="nav-item active"><a class="nav-link" href="/index.jsp">Home<span
 							class="sr-only">(current)</span></a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/item/getList.do">현재 판매중인 상품</a></li>
@@ -116,3 +118,23 @@ body {
 
 </body>
 </html>
+
+<script>
+function logout() {
+    $.ajax({
+        url: "/member/logout",
+        type: "post",
+        success: function (result) {
+            if (result.trim() === "1") {
+                location.href = "index.jsp";
+            } else {
+                alert("로그아웃 실패");
+            }
+        },
+        error: function () {
+            alert("로그아웃 에러 발생");
+        }
+    });
+}
+
+</script>
