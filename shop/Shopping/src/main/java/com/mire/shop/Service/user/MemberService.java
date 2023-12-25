@@ -12,5 +12,6 @@ public interface MemberService {
 	public void deleteMember(MemberVO member);
 	public MemberDTO getMember(MemberVO member);
 	public MemberDTO getMember(String id);
+	public void checkMember(String id);
 
 }

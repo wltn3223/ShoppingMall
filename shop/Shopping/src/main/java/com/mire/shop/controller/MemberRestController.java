@@ -1,11 +1,9 @@
 package com.mire.shop.controller;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,12 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mire.shop.Service.item.ItemService;
 import com.mire.shop.Service.user.MemberService;
 import com.mire.shop.model.MemberDTO;
 import com.mire.shop.model.MemberVO;
@@ -30,38 +25,38 @@ import com.mire.shop.model.MemberVO;
 public class MemberRestController {
 		
 	private final MemberService memberService;
-	private final ItemService itemService;
 	
 	
 	@Autowired
-	public MemberRestController(MemberService memberService, ItemService itemService) {
+	public MemberRestController(MemberService memberService) {
 		this.memberService = memberService;
-		this.itemService = itemService; 
 	}
 	
 	@PostMapping(value = "/login") // 로그인
 	public String CheckMember(@RequestBody MemberVO memberVO, HttpSession session) {
 		MemberDTO  dto = memberService.getMember(memberVO);
 		
-		if(dto != null) {
-			session.setAttribute("memberId", dto.getId());
-			session.setMaxInactiveInterval(1800);
-			return "1";
-		}
 		
-		return "0";
+		session.setAttribute("memberId", dto.getId());
+		session.setMaxInactiveInterval(1800);
+		
+		
+		return "1";
 	}
 	
 	@PostMapping(value = "/join") // 회원가입
 	public String insertMember(@RequestBody MemberVO memberVO) {
+		System.out.println(memberVO);
 		memberService.insertMember(memberVO);
+		
 		return "1";
 	}
+	
 	@GetMapping(value = "/login-check") // 아이디 중복확인
 	public String idCheck(@RequestParam String memberId) {
-		MemberDTO  dto =  memberService.getMember(memberId);
-		System.out.println(dto);
-		return (dto != null)? "1": "0";
+		memberService.checkMember(memberId);
+		
+		return "1";
 		
 		
 	}
@@ -80,21 +75,27 @@ public class MemberRestController {
 		mv.setViewName("info");
 		return mv;
 	}
+	@GetMapping("/updateForm")
+	public ModelAndView getUpdateForm() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("memberUpdateForm");
+		return mv;
+	}
 	
 	
 	@PutMapping  //회원수정
-	public String updateMember(@ModelAttribute MemberVO memberVO) {
+	public String updateMember(@RequestBody MemberVO memberVO) {
 		memberService.updateMember(memberVO);
 		
 		return "1";
 	}
 	
 	@DeleteMapping // 회원 탈퇴
-	public String deleteMember(@RequestBody MemberVO memberVO,  HttpSession session) {
+	public ResponseEntity<Object> deleteMember(@RequestBody MemberVO memberVO,  HttpSession session) {
 		System.out.println(memberVO);
 		memberService.deleteMember(memberVO);
 		session.invalidate();
 		
-		return "1";
+		return ResponseEntity.ok().build();
 	}
 }

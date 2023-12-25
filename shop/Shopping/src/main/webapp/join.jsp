@@ -7,12 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>회원가입 폼</title>
 <!-- 부트스트랩 CDN 추가 -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-	rel="stylesheet" crossorigin="anonymous">
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+
 <!-- 사용자 정의 스타일 시트 -->
 </head>
 <body>
@@ -56,35 +61,45 @@
 	let idCheckDone = false;
 
 	function checkId() {
-		let memberId = $('#id').val();
-		if (memberId === '') {
-			alert("ID를 입력하세요.");
-			return;
-		}
+	    var memberId = $('#id').val();
 
-		$.ajax({
-			url : "/member/login-check",
-			type : "get",
-			data : {
-				"memberId" : memberId
-			},
-			dataType : 'json',
-			success : function(result) {
-				var checkIdElement = $("#checkId");
-				if (result === "0") {
-					alert('사용할 수 있는 ID입니다.');
-					// Set the flag to indicate that ID check is done
-					idCheckDone = true;
-				} else {
-					alert('사용할 수 없는 ID입니다.');
-					// Reset the flag if ID is not available
-					idCheckDone = false;
-				}
-			},
-			error : function() {
-				alert("서버 요청 실패");
-			}
-		});
+	    if (memberId === '') {
+	        alert("ID를 입력하세요.");
+	        return;
+	    }
+
+	    $.ajax({
+	        url: "/member/login-check",
+	        type: "get",
+	        data: {
+	            memberId: memberId
+	        },
+	        dataType: 'json',
+	        success: function (result) {
+	        	if (result === "1") {
+	        		idCheckDone = true;
+			        alert("사용 가능한 id입니다");
+			    } else{
+			    	idCheckDone = false;
+			    	alert("사용할 수 없는 아이디입니다.");
+			    }
+	        },
+	        error: function (xhr, status, error) {
+	        	idCheckDone = false;
+	            handleError(xhr);
+	        }
+	    });
+	}
+
+
+
+	function handleError(xhr) {
+	    if (xhr.responseJSON) {
+	        var errorMessage = xhr.responseJSON.message;
+	        alert("회원가입:" + errorMessage);
+	    } else {
+	        console.error('An unexpected error occurred:', xhr);
+	    }
 	}
 
 	function join() {
@@ -110,14 +125,18 @@
 			contentType : 'application/json',
 			success : function(result) {
 				if (result === "1") {
-					alert("회원가입 성공");
-					location.href = "index.jsp";
-				} else {
-					alert("회원가입 실패");
-				}
+			        // 성공적으로 회원가입된 경우
+			        alert("회원가입 성공");
+			        location.href = "/index.jsp";
+			    } else{
+			    	alert("회원가입 실패");
+			    }
 			},
-			error : function() {
-				alert("회원가입 에러 발생");
+			error : function(xhr,status,error) {
+				 var errorCode = xhr.responseJSON.errorCode;
+			     var errorMessage = xhr.responseJSON.message;
+				
+			     alert("회원가입:" + errorCode + " - " + errorMessage);
 			}
 		});
 	}

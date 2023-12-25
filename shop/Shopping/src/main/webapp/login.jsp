@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <title>로그인</title>
   <!-- 부트스트랩 CDN 추가 -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
 <%@include file="top.jsp" %>
@@ -50,41 +49,39 @@
     }
 </style>
 <script>
-  function login() {
+function login() {
     let id = document.getElementById("id").value;
     let passwd = document.getElementById("passwd").value;
-    
- 
 
     // Check if the values contain only spaces
     if (id.trim() === "" || passwd.trim() === "") {
-      alert("아이디와 비밀번호를 입력하세요.");
-      return; // Prevent form submission
+        alert("아이디와 비밀번호를 입력하세요.");
+        return; // Prevent form submission
     }
-	$.ajax({
-		url:"/member/login",
-		type:"post",
-		data: JSON.stringify ({
-			"id": id,
-			"passwd": passwd
-		}),
-		dataType:"json",
-		contentType: 'application/json',
-		success:function(data){
-			if(data == "1"){
-				location.href = "/index.jsp";	
-			}
-			else{
-				alert("로그인 실패");
-			}
-			
-		}
-	
-		
-	})
-	
-    
-    return true;
-  }
+
+    $.ajax({
+        url: "/member/login",
+        type: "post",
+        data: JSON.stringify({
+            "id": id,
+            "passwd": passwd
+        }),
+        dataType: "json",
+        contentType: 'application/json',
+        success: function (data) {
+            if (data === "1") {
+                location.href = "/index.jsp";
+            } else {
+                alert("로그인 실패");
+            }
+        },
+        error: function (xhr, status, error) {
+            var errorCode = xhr.responseJSON.errorCode;
+            var errorMessage = xhr.responseJSON.message;
+
+            alert("로그인실패:" + errorCode + " - " + errorMessage);
+        }
+    });
+}
 </script>
 </html>

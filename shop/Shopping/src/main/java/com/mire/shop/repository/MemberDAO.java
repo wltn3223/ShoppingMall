@@ -24,7 +24,7 @@ public class MemberDAO {
 	private final String MEMBER_GET_ID = "select  * from Member where member_ID = ?";
 	private final String MEMBER_INSERT = "INSERT INTO MEMBER (MEMBER_NO, member_ID, MEMBER_PASSWD, MEMBER_NAME, MEMBER_PHONE)"
 			+ "VALUES ((select nvl(max(MEMBER_NO), 0)+1 from MEMBER), ?, ?, ?, ?)";
-	private final String MEMBER_UPDATE = "UPDATE MEMBER SET MEMBER_PASSWD = ?,MEMBER_NAME = ?, MEMBER_PHONE = ? WHERE MEMBER_ID = ? ";
+	private final String MEMBER_UPDATE = "UPDATE MEMBER SET MEMBER_NAME = ?, MEMBER_PHONE = ? WHERE MEMBER_ID = ? ";
 	private final String MEMBER_DELETE = "DELETE FROM MEMBER where member_ID  = ?";
 	
 	
@@ -107,10 +107,9 @@ public class MemberDAO {
 		try {
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(MEMBER_UPDATE);
-			stmt.setString(1, vo.getPasswd());
-			stmt.setString(2, vo.getName());
-			stmt.setString(3, vo.getPhone());
-			stmt.setString(4, vo.getId());
+			stmt.setString(1, vo.getName());
+			stmt.setString(2, vo.getPhone());
+			stmt.setString(3, vo.getId());
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
